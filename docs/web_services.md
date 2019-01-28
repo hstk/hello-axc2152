@@ -4,7 +4,7 @@ One of the core requirements for a modern automation system is displaying some k
 
 ## 1. Open a port for our app
 
-Normally we'd serve html over port 80, but the IEC-61336 system is using that for the web based HMI. To avoid interfering, we'll serve our Rust app over another port. It doesn't really matter what port you take, so long as its not currently occupied. 8080 has a long history of being an alternate port for html traffic, so we'll use that.
+Normally we'd serve html over port 80, but the IEC-61131 system is using that for the web based HMI. To avoid interfering, we'll serve our Rust app over another port. It doesn't really matter what port you take, so long as its not currently occupied. 8080 has a long history of being an alternate port for html traffic, so we'll use that.
 
 To do that, we'll have to modify our firewall to let traffic through that port. Our controller uses `nftables`. In `nftables` we have a list of tables, the tables have chains, and the chains have the rules that control ports. In this particular configuration, we only have one table (`filter`), and two chains: one for input, one for output. To view all active rules, we'll use `nft list ruleset`.
 
