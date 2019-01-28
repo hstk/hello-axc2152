@@ -6,12 +6,15 @@ Instead of using Virtualbox, Vagrant, Docker, mingw64, we'll use the Windows Sub
 
 ## Directions
 
-1. Open up a Powershell terminal with admin rights and run `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-`.
+1. Open up a Powershell terminal with admin rights and enable WSL. 
+
+```
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+```
 
 2. Install [Ubuntu](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6) from the Windows Store.
 
-3. Launch the Ubuntu app or run `bash` from Powershell. Update your packages.
+3. Launch the Ubuntu app or run `bash` from Powershell. Update your packages, it may take a while.
 
 ```bash
 sudo apt-get update
@@ -54,3 +57,5 @@ certificates  hello-axc2152  logs  lttng  profinet  projects
 admin@axcf2152:~$ ./hello-axc2152
 Hello, world!
 ```
+
+Cool, we can print "Hello World" to our console. But it's not terribly useful. So let's spin up a [web server](./web_services.md).
