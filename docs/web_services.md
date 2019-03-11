@@ -10,7 +10,7 @@ To do that, we'll have to modify our firewall to let traffic through that port. 
 
 We can see 8080 isn't open on our single table (named, aptly, `filter`), let's fix that. We'll retrieve a list of rules with `nft list table filter -na`. The flags give us a list of handles that allows sticking our new rule in a particular location; if you just add a rule, it'll append to the end and won't work properly.
 
-```console
+``` console
 admin@axcf2152:~$ sudo nft list ruleset -na
 Password:
 table ip filter {
@@ -43,20 +43,20 @@ table ip filter {
 
 We'll put our new rule right after the https rule.
 
-```console
+``` console
 nft insert rule filter input position 10 tcp dport 8080 accept
 ```
 
 Finally, the firewall script (`/etc/init.d/firewall`) will clobber our current settings if we reboot: it will flush (read: delete) all of the existing rules and restore them from a known good config off of the file `plcnext-filter`. If you want to save your current `plcnext-filter` file (never a bad decision), go ahead and make a copy.
 
-```console
+``` console
 mkdir /etc/nftables/backup
 cp /etc/nftables/plcnext-filter /etc/nftables/backup
 ```
 
 And finally we'll overwrite our `plcnext-filter` with our new version.
 
-```console
+``` console
 nft list table filter > /etc/nftables/plcnext-filter
 ```
 
@@ -126,6 +126,6 @@ fn main() {
 }
 ```
 
-Build and deploy to your AXC2152. Run `./hello-axc2152`, then open a browser and navigate to `http://192.168.10.2:8080/`. You should see a very sparse page with the line of text we programmed. We're web now!
+Build and deploy to your AXC2152. Run `./hello-axc2152`, then open a browser and navigate to `http://192.168.10.2:8080/`. You should see a very sparse page with the line of text we programmed being served from your controller. In modern parlance, "we're web now." Because we're using a modern language that works on your machine as well it does on the controller, you can simply replace the `addr` vector with the loopback ip (127.0.0.1) and hack on this skeletal frame on your own machine. Add routes, serve some JSON into a JS frontend.
 
-Pending Phoenix's API release schedule (and how quickly I pick up Rust interop), we'll continue on with getting data into our Rust program from our PLC and shipping data out.
+Let's [take a stab at getting some IO working](./calling_cpp.md) with `bindgen`; otherwise, our controller might as well be a Raspberry Pi.
